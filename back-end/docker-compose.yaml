@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+    express-service:
+        container_name: Checklist
+        
+        build: .
+        
+        volumes:
+            - ./:/app:Z 
+        
+        ports:
+            - "8100:8100"
+            
+        depends_on:
+            - postgres-db-list
+        
+        environment:
+            DATABASE_HOST: postgres-db-list
+
+        command: npm run migrate && npm run seed && npm start 
+
+    postgres-db-list:
+        container_name: postgres-db-list
+        image: postgres:latest
+        restart: always
+        environment:
+            DATABASE_HOST: postgres-db-list
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: ToDoList
+            PGDATA: /var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdatasource:/var/lib/postgresql/data
+
+
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: pgAdmin
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: burmanbed@gmail.com
+            PGADMIN_DEFAULT_PASSWORD: password
+        ports:
+            - "8080:80"
+        volumes:
+            - pgadmin-data:/var/lib/pgadmin
+        depends_on:
+            - postgres-db-list
+        
+volumes:
+  pgdatasource:
+  pgadmin-data:
+
+networks:
+  default:
