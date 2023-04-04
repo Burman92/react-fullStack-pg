@@ -13,6 +13,41 @@
   }
 }
 
+#todo{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+label{
+  font-weight: 1000;
+  color: crimson;
+  animation-name: moveInRight;
+  animation-duration: 3s;
+}
+
+button{
+  font-weight: 1000;
+  color: crimson;
+  background-color: rgba(255, 255, 255, 0);
+  animation-name: moveInRight;
+  animation-duration: 3s;
+}
+
+h1{
+  font-weight: 200;
+  color: #ca0c0c83
+}
+
+::placeholder{
+  color: #ca0c0c83
+  ;
+}
+
+h2{
+  font-size: 20px;
+  color: orangered;
+  letter-spacing: 5px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -34,5 +69,35 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+#card{
+  background-image: linear-gradient(to left, rgba(82, 32, 7, 0.321) 0%, rgb(128, 58, 0) 100%);
+  animation-name: moveInLeft;
+  animation-duration: 3s;
+}
+
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
   }
 }

@@ -1,30 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import ChoreList from './components/choreList.js';
+import ChoreForm from './components/SendChore.js';
 
-function App() {
-const [data, setData] = useState([]);
+const App = () => {
+const [chores, setChores] = useState([]);
+
 
 useEffect(()=> {
   fetch('http://localhost:8100/api/chores/')
-    .then(response => response.json())
-    .then(data => setData(data))
+  .then((response) => {
+    const isJson = response.headers.get('content-type')?.includes('application/');
+    return isJson && response.json();
+})
+    // .then(data => setChores(data))
+    .then((data)=>{
+      setChores(data)
+    })
     .catch(error => console.error(error));
 },[]);
 
+const addChore = (newChore) => {
+  setChores([...chores, newChore]);
+};
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        { data.map(item => 
-          <p key={item.id}>
-          {item.name}
-          {console.log(data)}
-          </p>) }
-      </header>
+  return !chores.length ? (
+    <h1 className='fc1'>LOADING</h1>
+  ) : (
+    <div className="tc">
+        <h1 id='todo' className='f1'>To Do List</h1>
+        <ChoreForm onAddChore= { addChore }/>
+        <ChoreList chores={ chores }/>
     </div>
   );
 }
 
 export default App;
+
